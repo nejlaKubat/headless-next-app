@@ -1,7 +1,7 @@
 
 import Header from '@/components/ui/header'
 import Footer from '@/components/ui/footer'
-import Animate from '@/components/animate'
+import Animate from '@/components/Animate'
 
 export default function DefaultLayout({
   children,

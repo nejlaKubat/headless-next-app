@@ -1,4 +1,25 @@
 
+export type CostumerPostQuery = {
+    customerPostCollection: {
+      items: {
+        title: string
+        slug: string
+        body: {
+          json: JSON
+        }
+        customer: {
+          name: string
+          logo: {
+            url: string
+            width: number
+            height: number
+            title: string
+          }
+        }
+      }[]
+    }
+}
+
 export type HeaderNavQuery = {
     navigationCollection: {
         items: {
@@ -10,7 +31,7 @@ export type HeaderNavQuery = {
             }[]
           }
         }[]
-      }
+    }
 }
 
 export type LogoWallQuery = {

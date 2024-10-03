@@ -1,6 +1,70 @@
 import "server-only"
-import { HeaderNavQuery, HeroQuery, LogoWallQuery } from "@/types"
+import { CostumerPostQuery, HeaderNavQuery, HeroQuery, LogoWallQuery } from "@/types"
 import { contentGqlFetcher } from "./fetch"
+
+export const getSlugsForCostumerPosts = async () => {
+  const query = `#graphql
+    {
+      customerPostCollection {
+        items {
+          slug
+        }
+      }
+    }
+  `
+  const data = await contentGqlFetcher<{
+    customerPostCollection: {
+      items: {
+        slug: String
+      }[]
+    }
+  }>({query})
+
+  if(!data) {
+    throw Error('oops')
+  }
+
+  return data
+}
+
+export const getContentForCustomerPost = async (slug: string) => {
+  const query = `#graphql
+    query CustomerPostCollection($where: CustomerPostFilter) {
+      customerPostCollection(where: $where) {
+        items {
+          title
+          slug
+          body {
+            json
+          }
+          customer {
+            name
+            logo {
+              url
+              width
+              height
+              title
+            }
+          }
+        }
+      }
+    }
+  `
+  const data = await contentGqlFetcher<CostumerPostQuery>({
+    query,
+    variables: {
+      where: {
+        slug
+      },
+    },
+  })
+
+  if(!data) {
+    throw Error('oops')
+  }
+
+  return data
+}
 
 export const getContentForHeaderNav = async () => {
   const query = `#graphql
